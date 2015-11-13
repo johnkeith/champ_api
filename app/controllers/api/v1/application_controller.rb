@@ -5,6 +5,13 @@ module Api
 
 			register Sinatra::JSON
 
+			set :root, File.dirname('../../../../../..')
+			
+			configure do 
+				CONFIG = YAML.load(File.open(File.expand_path(
+					settings.root + '/config/config.yml', __FILE__)))
+			end
+
 			configure :development, :production do
 		    enable :logging
 		  end

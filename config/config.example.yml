@@ -1,0 +1,6 @@
+development:
+  fitbit:
+    client_key: ''
+    client_secret: ''
+    oauth_authorization_uri: ''
+    oauth_refresh_token_uri: ''
