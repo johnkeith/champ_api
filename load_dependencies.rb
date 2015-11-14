@@ -1,5 +1,8 @@
 require 'rubygems'
 require 'bundler'
+require 'uri'
+require 'net/http'
+require 'json'
 
 Bundler.require
 Bundler.require(Sinatra::Base.environment)
