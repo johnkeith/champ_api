@@ -3,6 +3,7 @@ require 'bundler'
 require 'uri'
 require 'net/http'
 require 'json'
+require 'rack/cors'
 
 Bundler.require
 Bundler.require(Sinatra::Base.environment)
