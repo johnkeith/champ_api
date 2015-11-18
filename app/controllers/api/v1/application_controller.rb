@@ -6,7 +6,14 @@ module Api
 			register Sinatra::JSON
 
 			set :root, File.dirname('../../../../../..')
-			
+
+			use Rack::Cors do
+		    allow do
+		      origins '*'
+		      resource '*', :headers => :any, :methods => [:get, :post, :options]
+		    end
+		  end
+
 			configure do 
 				CONFIG = YAML.load(File.open(File.expand_path(
 					settings.root + '/config/config.yml', __FILE__)))
