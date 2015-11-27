@@ -24,7 +24,7 @@ module Api
 
 			# http://localhost:9393/api/v1/fitbit/data/lifetime_stats
 			get '/lifetime_stats' do
-				json data: lifetime_stats_request(params['user_id'], params['access_token'])
+				json data: JSON.parse(lifetime_stats_request(params['user_id'], params['access_token']))
 			end
 		end
 	end
