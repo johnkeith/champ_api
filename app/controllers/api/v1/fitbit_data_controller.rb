@@ -50,8 +50,15 @@ module Api
 					data = group_data_by_day_of_week(data)
 
 					day_sums = sum_steps_by_day_of_week(data)
+					days_with_data = sum_days_of_week_with_valid_data(data)
 
-					day_sums
+					output = { average_steps_per_day: {}, year_totals_per_day: day_sums }
+
+					day_sums.each do |day, sum|
+						output[:average_steps_per_day][day] = sum / days_with_data[day] rescue 0
+					end
+
+					output
 				end
 
 				def add_day_of_week_to_results!(data)
@@ -64,16 +71,28 @@ module Api
 					data.group_by { |r| r['day'] }
 				end
 
-				def sum_steps_by_day_of_week(data)
+				def sum_steps_by_day_of_week(grouped_data)
 					results = Hash.new(0)
 
-					data.each { |day, values| results[day] = sum_values_of_results(values) }
+					grouped_data.each { |day, values| results[day] = sum_values_of_results(values) }
 
 					results
 				end
 
 				def sum_values_of_results(data)
 					data.map { |r| r['value'].to_i rescue 0 }.sum
+				end
+
+				def sum_days_of_week_with_valid_data(grouped_data)
+					results = Hash.new(0)
+
+					grouped_data.each do |day, values| 
+						values.each do |row|
+							results[day] += 1 if row['value'].to_i != 0
+						end
+					end
+
+					results
 				end
 			end
 
