@@ -16,13 +16,8 @@ module Api
 
 				def lifetime_stats_request(user_id, access_token)				
 					url = lifetime_stats_uri(user_id)
-					uri = URI.parse(url)
 
-					req = Net::HTTP::Get.new(uri.request_uri)
-					req.initialize_http_header({ 'Authorization' => "Bearer #{access_token}" })
-
-					res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |r| r.request(req) }
-					res.body
+					base_request(url, access_token)
 				end
 
 				def days_of_week_comparison_request(user_id, access_token)

@@ -22,6 +22,12 @@ module Api
 			configure :development, :production do
 		    enable :logging
 		  end
+
+		  before '/*' do
+		  	unless request.env['HTTP_SECRET'] == CONFIG[Sinatra::Base.environment][:secret]
+			  	halt 500
+			  end
+		  end
 		end
 	end
 end
