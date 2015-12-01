@@ -3,6 +3,7 @@ source "https://rubygems.org/"
 gem "sinatra", "~> 1.4"
 gem "sinatra-contrib", "~> 1.4"
 gem 'rack-cors', "~> 0.4.0", require: 'rack/cors'
+gem "puma"
 
 group :development do
 	gem "shotgun"

@@ -6,4 +6,13 @@
     :oauth_authorization_uri: ''
     :oauth_refresh_token_uri: ''
     :oauth_redirect_uri: ''
-:app_api_secret: ''
+  :secret: ''
+:production:
+  :fitbit:
+    :client_id: ''
+    :client_key: ''
+    :client_secret: ''
+    :oauth_authorization_uri: ''
+    :oauth_refresh_token_uri: ''
+    :oauth_redirect_uri: ''
+  :secret: ''
