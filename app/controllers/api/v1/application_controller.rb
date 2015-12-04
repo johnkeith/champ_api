@@ -23,11 +23,13 @@ module Api
 		    enable :logging
 		  end
 
-		  before '/*' do
-		  	unless request.env['HTTP_SECRET'] == CONFIG[Sinatra::Base.environment][:secret]
-			  	halt 500
-			  end
-		  end
+		  # before '/*' do
+		  	# looks like this blows up when coming from IOS - # maybe loosing the headers in the transferance to safari? / redirect from Fitbit
+
+		  	# unless request.env['HTTP_SECRET'] == CONFIG[Sinatra::Base.environment][:secret]
+			  # 	halt 500
+			  # end
+		  # end
 		end
 	end
 end
