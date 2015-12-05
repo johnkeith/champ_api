@@ -1,12 +1,12 @@
 module Api
 	module V1
 		class FitbitDataController < ApplicationController
-			# http://localhost:9393/api/v1/fitbit/data/lifetime_stats
+			# /api/v1/fitbit/data/lifetime_stats
 			get '/lifetime_stats' do
 				json data: JSON.parse(lifetime_stats_request(params['user_id'], params['access_token']))
 			end
 
-			# http://localhost:9393/api/v1/fitbit/data/days_of_week_comparison
+			# /api/v1/fitbit/data/days_of_week_comparison
 			get '/days_of_week_comparison' do
 				results = JSON.parse(days_of_week_comparison_request(params['user_id'], params['access_token']))
 				results = analyze_days_of_week_comparison_results(results)
@@ -14,7 +14,7 @@ module Api
 				json data: results
 			end
 
-			# http://localhost:9393/api/v1/fitbit/data/minutes_sedentary_comparison
+			# /api/v1/fitbit/data/minutes_sedentary_comparison
 			get '/minutes_sedentary_comparison' do
 				results = JSON.parse(minutes_sedentary_for_year_request(params['user_id'], params['access_token']))
 				results = analyze_minutes_sedentary_comparison_results(results)
@@ -74,42 +74,29 @@ module Api
 				### analysis of data from Fitbit API
 
 				def analyze_minutes_sedentary_comparison_results(results)
-					data = results['activities-tracker-minutesSedentary']
-
-					add_day_of_week_to_results!(data)
-
-					data = group_data_by_day_of_week(data)
-
-					day_sums = sum_values_by_day_of_week(data, 1440)
-					days_with_data = sum_days_of_week_with_valid_data(data, 1440)
-
-					output = { average_minutes_sedentary_per_day: {}, year_totals_per_day: day_sums }
-
-					day_sums.each do |day, sum|
-						output[:average_minutes_sedentary_per_day][day] = sum / days_with_data[day] rescue 0
-					end
-
-					output
+					group_and_analyze_data_at_key_by_day_of_week(results, 'activities-tracker-minutesSedentary', 1440)
 				end
 
 				def analyze_days_of_week_comparison_results(results)
-					data = results['activities-tracker-steps']
+					group_and_analyze_data_at_key_by_day_of_week(results, 'activities-tracker-steps', 0)
+				end
+
+				def group_and_analyze_data_at_key_by_day_of_week(results, key, remove_value=nil)
+					data = group_data_at_key_by_day_of_week(results, key)
+
+					day_sums = sum_values_by_day_of_week(data, remove_value)
+					days_with_data = sum_days_of_week_with_valid_data(data, remove_value)
+
+					group_output_averages_and_totals(day_sums, days_with_data)
+				end
+
+				def group_data_at_key_by_day_of_week(results, key)
+					data = results[key]
 					
 					add_day_of_week_to_results!(data)
 
-					data = group_data_by_day_of_week(data)
-
-					day_sums = sum_values_by_day_of_week(data)
-					days_with_data = sum_days_of_week_with_valid_data(data)
-
-					output = { average_steps_per_day: {}, year_totals_per_day: day_sums }
-
-					day_sums.each do |day, sum|
-						output[:average_steps_per_day][day] = sum / days_with_data[day] rescue 0
-					end
-
-					output
-				end
+					group_data_by_day_of_week(data)
+				end				
 
 				def add_day_of_week_to_results!(data)
 					data.each do |r|
@@ -150,6 +137,16 @@ module Api
 					end
 
 					results
+				end
+
+				def group_output_averages_and_totals(day_sums, days_with_data)
+					output = { averages_per_day: {}, year_totals_per_day: day_sums }
+
+					day_sums.each do |day, sum|
+						output[:averages_per_day][day] = sum / days_with_data[day] rescue 0
+					end
+
+					output
 				end
 			end
 		end
