@@ -9,7 +9,7 @@ module Api
 			# /api/v1/fitbit/data/days_of_week_comparison
 			get '/days_of_week_comparison' do
 				results = JSON.parse(days_of_week_comparison_request(params['user_id'], params['access_token']))
-				results = analyze_days_of_week_comparison_results(results)
+				results = group_and_analyze_data_at_key_by_day_of_week(results, 'activities-tracker-steps', 0)
 
 				json data: results
 			end
@@ -17,9 +17,34 @@ module Api
 			# /api/v1/fitbit/data/minutes_sedentary_comparison
 			get '/minutes_sedentary_comparison' do
 				results = JSON.parse(minutes_sedentary_for_year_request(params['user_id'], params['access_token']))
-				results = analyze_minutes_sedentary_comparison_results(results)
+				results = group_and_analyze_data_at_key_by_day_of_week(results, 'activities-tracker-minutesSedentary', 1440)
+
 
 				json data: results
+			end
+
+			# /api/v1/fitbit/data/minutes_active_comparison
+			get '/minutes_active_comparison' do
+				results_light_activity = JSON.parse(minutes_lightly_active_for_year_request(params['user_id'], params['access_token']))
+				results_light_activity = group_and_analyze_data_at_key_by_day_of_week(results_light_activity, 'activities-tracker-minutesLightlyActive', 0)
+
+				results_moderate_activity = JSON.parse(minutes_moderately_active_for_year_request(params['user_id'], params['access_token']))
+				results_moderate_activity = group_and_analyze_data_at_key_by_day_of_week(results_moderate_activity, 'activities-tracker-minutesFairlyActive', 0)
+
+				results_intense_activity = JSON.parse(minutes_intense_active_for_year_request(params['user_id'], params['access_token']))
+				results_intense_activity = group_and_analyze_data_at_key_by_day_of_week(results_intense_activity, 'activities-tracker-minutesVeryActive', 0)
+
+				results_moderate_and_intense_totals = sum_values_of_week_hashes(results_moderate_activity, results_intense_activity)
+				results_totals = sum_values_of_week_hashes(results_light_activity, results_moderate_activity, results_intense_activity)
+				
+
+				json data: { 
+					light_activity: results_light_activity,
+					moderate_activity: results_moderate_activity,
+					intense_activity: results_intense_activity,
+					year_totals_per_day: results_totals,
+					year_totals_moderate_and_intense: results_moderate_and_intense_totals
+				}
 			end
 
 			helpers do
@@ -27,6 +52,39 @@ module Api
 
 				def fitbit_config
 					CONFIG[Sinatra::Base.environment][:fitbit]
+				end
+
+				def minutes_intense_active_for_year_uri(user_id, date)
+					"https://api.fitbit.com/1/user/#{user_id}/activities/tracker/minutesVeryActive/date/#{date}/1y.json"
+				end
+
+				def minutes_intense_active_for_year_request(user_id, access_token)
+					date = Time.now.strftime('%Y-%m-%d')
+					url = minutes_intense_active_for_year_uri(user_id, date)
+
+					base_request(url, access_token)
+				end
+
+				def minutes_moderately_active_for_year_uri(user_id, date)
+					"https://api.fitbit.com/1/user/#{user_id}/activities/tracker/minutesFairlyActive/date/#{date}/1y.json"
+				end
+
+				def minutes_moderately_active_for_year_request(user_id, access_token)
+					date = Time.now.strftime('%Y-%m-%d')
+					url = minutes_moderately_active_for_year_uri(user_id, date)
+
+					base_request(url, access_token)
+				end
+
+				def minutes_lightly_active_for_year_uri(user_id, date)
+					"https://api.fitbit.com/1/user/#{user_id}/activities/tracker/minutesLightlyActive/date/#{date}/1y.json"
+				end
+
+				def minutes_lightly_active_for_year_request(user_id, access_token)
+					date = Time.now.strftime('%Y-%m-%d')
+					url = minutes_lightly_active_for_year_uri(user_id, date)
+
+					base_request(url, access_token)
 				end
 
 				def minutes_sedentary_for_year_uri(user_id, date)
@@ -72,14 +130,6 @@ module Api
 				end
 
 				### analysis of data from Fitbit API
-
-				def analyze_minutes_sedentary_comparison_results(results)
-					group_and_analyze_data_at_key_by_day_of_week(results, 'activities-tracker-minutesSedentary', 1440)
-				end
-
-				def analyze_days_of_week_comparison_results(results)
-					group_and_analyze_data_at_key_by_day_of_week(results, 'activities-tracker-steps', 0)
-				end
 
 				def group_and_analyze_data_at_key_by_day_of_week(results, key, remove_value=nil)
 					data = group_data_at_key_by_day_of_week(results, key)
@@ -144,6 +194,18 @@ module Api
 
 					day_sums.each do |day, sum|
 						output[:averages_per_day][day] = sum / days_with_data[day] rescue 0
+					end
+
+					output
+				end
+
+				def sum_values_of_week_hashes(*week_hashes)
+					output = Hash.new(0)
+
+					week_hashes.each do |week_hash|
+						week_hash[:averages_per_day].each do |day, value|
+							output[day] += value || 0
+						end
 					end
 
 					output
