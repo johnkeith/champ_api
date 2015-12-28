@@ -20,7 +20,6 @@ module Api
 				results = JSON.parse(minutes_sedentary_for_year_request(params['user_id'], params['access_token']))
 				results = group_and_analyze_data_at_key_by_day_of_week(results, 'activities-tracker-minutesSedentary', 1440)
 
-
 				json data: results
 			end
 

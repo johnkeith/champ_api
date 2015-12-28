@@ -15,6 +15,8 @@ module Api
 		  end
 
 			configure do 
+				set :views, "#{File.expand_path(settings.root, __FILE__)}/templates"
+
 				CONFIG = YAML.load(File.open(File.expand_path(
 					settings.root + '/config/config.yml', __FILE__)))
 			end
