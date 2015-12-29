@@ -28,16 +28,7 @@
                     <span class="icon-bar bar2"></span>
                     <span class="icon-bar bar3"></span>
                     </button>
-                    <a href="http://www.creative-tim.com">
-                        <div class="logo-container">
-                            <div class="logo">
-                                <img src="assets/img/new_logo.png" alt="Creative Tim Logo">
-                            </div>
-                            <div class="brand">
-                                Creative Tim
-                            </div>
-                        </div>
-                    </a>
+                    <a href="http://www.creative-tim.com" class="navbar-brand">Champ</a>
                 </div>
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="example" >
@@ -54,36 +45,26 @@
                             Tweet
                             </a>
                         </li>
-                        <li>
-                            <a href="#"> 
-                            <i class="fa fa-pinterest"></i>
-                            Pin
-                            </a>
-                        </li>
                     </ul>
                 </div>
                 <!-- /.navbar-collapse -->
             </div>
         </nav>
         <div class="wrapper">
-            <div class="parallax filter-gradient blue" data-color="blue">
+            <div class="parallax filter-gradient orange" data-color="orange">
                 <div class="parallax-background">
-                    <img class="parallax-background-image" src="assets/img/template/bg3.jpg">
+                    <img class="parallax-background-image" src="<%= url('/img/champ_bg_top_09.jpg') %>">
                 </div>
                 <div class= "container">
                     <div class="row">
-                        <div class="col-md-5 hidden-xs">
-                            <div class="parallax-image">
-                                <img class="phone" src="assets/img/template/iphone3.png" style="margin-top: 20px"/>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-md-offset-1">
+                        <div class="col-md-6">
                             <div class="description">
-                                <h2>Awesome landing page.</h2>
+                                <h3>Make the Most of Your Fitbit Data</h3>
                                 <br>
-                                <h5>Be amazed by the best looking bootstrap landing page on the web! Your new app deserves an amazing page to show all of its features. Clear visual, light colours and beautifully aligned elements - they all try to make the users aware of your great app features!</h5>
+                                <h5>Champ gives you customized fitness recommendations based on your Fitbit activity data.</h5>
+                                <h5>Delievered straight to your inbox, on a daily or weekly basis, Champ's analysis of your activity trends will come with solid, actionable recommendations on what to change so you can train smarter, not harder.</h5>
                             </div>
-                            <div class="buttons">
+                            <!-- <div class="buttons">
                                 <button class="btn btn-fill btn-neutral">
                                 <i class="fa fa-apple"></i> Appstore
                                 </button>
@@ -93,7 +74,19 @@
                                 <button class="btn btn-simple btn-neutral">
                                 <i class="fa fa-windows"></i>
                                 </button>
+                            </div> -->
+                        </div>
+<!--                         <div class="col-md-5 hidden-xs">
+                            <div class="parallax-image">
+                                <img class="phone" src="<%= url('/img/template/iphone3.png') %>" style="margin-top: 20px"/>
                             </div>
+                        </div> -->
+                        <div class="col-md-5 col-md-offset-1">
+                          <div class="actions">
+                            <div class="action--vertically-centered">
+                              <a href="#" class="btn btn-neutral btn-lg btn-fill">Get a Sneak Peak</a>
+                            </div>
+                          </div>
                         </div>
                     </div>
                 </div>

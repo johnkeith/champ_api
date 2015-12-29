@@ -1,3 +1,14 @@
+/* JTK edits */
+.actions {
+  display: table;
+  height: 630px;
+}
+.action--vertically-centered {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+/* END JTK edits */
 
 /*           Font Smoothing      */
 h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, .btn-simple, a, .td-name, td {
@@ -302,7 +313,7 @@ a:focus, a:active {
   filter: alpha(opacity=100);
 }
 .btn-neutral.btn-fill:hover, .btn-neutral.btn-fill:focus, .btn-neutral.btn-fill:active, .btn-neutral.btn-fill.active, .open > .btn-neutral.btn-fill.dropdown-toggle {
-  background-color: white;
+  background-color: transparent;
   color: white;
 }
 .btn-neutral.btn-fill .caret {
@@ -316,6 +327,10 @@ a:focus, a:active {
   color: #888888;
 }
 .btn-neutral.btn-fill, .btn-neutral.btn-fill:hover, .btn-neutral.btn-fill:focus {
+  /*color: #888888;*/
+  color: white;
+}
+.btn-neutral.btn-fill {
   color: #888888;
 }
 .btn-neutral.btn-simple:active, .btn-neutral.btn-simple.active {
@@ -1014,7 +1029,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#de8e0009', e
 }
 
 .landing-page .parallax .description{
-  margin-top: 200px;
+  margin-top: 150px;
   color: white;
   padding: 5px;
 }
