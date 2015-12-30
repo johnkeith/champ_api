@@ -14,6 +14,23 @@ Made with love by Creative Tim (http://www.creative-tim.com)
   margin-bottom: 40px;
 }
 
+.content .row {
+    margin-top: 50px;
+}
+
+.content form input {
+  margin-top: 20px;
+}
+.content form .btn {
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+.content .panel {
+  background: transparent;
+  border-color: transparent;
+  color: white;
+}
+
 /* END JSK edits*/
 
 body{
@@ -791,12 +808,12 @@ h1 small, h2 small, h3 small, h1 .small, h2 .small, h3 .small {
 }
 
 .footer{
-    position: relative;
+    position: fixed;
     bottom: 20px;
     right: 0px;
     width: 100%;
     color: #AAAAAA;
-    z-index: 4;
+    z-index: 2;
     text-align: right;
     margin-top: 50px;
 }
@@ -813,7 +830,7 @@ h1 small, h2 small, h3 small, h1 .small, h2 .small, h3 .small {
     }   
     .main .subscribe .form-inline .btn{
         width: 100%;
-    }   
+    } 
 }
 @media (min-width:768px){        
     .main .subscribe .form-inline .btn{
@@ -821,6 +838,9 @@ h1 small, h2 small, h3 small, h1 .small, h2 .small, h3 .small {
     }   
     .main .logo {
       margin-top: 150px;
+    }
+    .content .row {
+      margin-top: 200px;
     }
 }
 @media (min-width:991px){        

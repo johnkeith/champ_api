@@ -15,7 +15,7 @@ module Api
 					uri.query = URI.encode_www_form(
 						client_id: fitbit_config[:client_id],
 						response_type: 'code',
-						scope: 'activity heartrate profile',
+						scope: 'activity profile',
 						redirect_uri: redirect_uri)
 					
 					uri.to_s
