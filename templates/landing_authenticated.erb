@@ -1,0 +1,19 @@
+<div class="content">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h4>Thanks! Enter your email below to receive your report.</h4>
+          <h5>We will be in touch in the next few weeks once Champ is ready to go!</h5>
+          <form method="post" action="/authenticated">
+            <div class="form-group">
+              <input type="hidden" name="code" value="<%= @code %>" id="authenticated_form__code">
+              <input type="email" name="email" class="form-control input-lg" placeholder="Enter your email address..." id="authenticated_form__email" autofocus>
+            </div>
+            <button type="submit" id="authenticated_form__submit" class="btn btn-default btn-fill btn-lg">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

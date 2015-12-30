@@ -18,9 +18,15 @@ class LandingController < Sinatra::Base
     end
   end
 
-  get '/signed_up' do
+  get '/authenticated' do
+    @code = params[:code]
+
     erb :landing_layout, layout: false do
-      erb :landing_signed_up
+      erb :landing_authenticated
     end
+  end
+
+  post '/authenticated' do
+    binding.pry
   end
 end

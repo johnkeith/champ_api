@@ -29,6 +29,8 @@ Made with love by Creative Tim (http://www.creative-tim.com)
   background: transparent;
   border-color: transparent;
   color: white;
+  box-shadow: none;
+  -webkit-box-shadow: none;
 }
 
 /* END JSK edits*/
