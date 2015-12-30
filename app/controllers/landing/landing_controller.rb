@@ -20,13 +20,14 @@ class LandingController < Sinatra::Base
 
   get '/authenticated' do
     @code = params[:code]
+    @success = params[:success]
 
     erb :landing_layout, layout: false do
       erb :landing_authenticated
     end
   end
 
-  post '/authenticated' do
-    redirect '/authenticated'
+  post '/authenticated' do    
+    redirect '/authenticated?success=true'
   end
 end
