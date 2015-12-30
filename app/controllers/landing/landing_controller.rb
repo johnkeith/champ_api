@@ -27,6 +27,6 @@ class LandingController < Sinatra::Base
   end
 
   post '/authenticated' do
-    binding.pry
+    redirect '/authenticated'
   end
 end
