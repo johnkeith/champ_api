@@ -13,6 +13,14 @@ class LandingController < Sinatra::Base
   end
 
   get '/' do
-    erb :index
+    erb :landing_layout, layout: false do
+      erb :landing_index
+    end
+  end
+
+  get '/signed_up' do
+    erb :landing_layout, layout: false do
+      erb :landing_signed_up
+    end
   end
 end
