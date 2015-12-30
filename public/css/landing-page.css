@@ -1629,6 +1629,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#de8e0009', e
 }
 
 @media (max-width: 767px){
+/*  .actions {
+    display: block;
+    text-align: center;
+  }*/
+
   .fixed-plugin{
     position: absolute;
   }
